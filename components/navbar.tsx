@@ -70,7 +70,8 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6 md:gap-10">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-1">
+        <ShoppingCart className="h-6 w-6" />
             <span className="font-bold text-xl">FreshBulk</span>
           </Link>
 

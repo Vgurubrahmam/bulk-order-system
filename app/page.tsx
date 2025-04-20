@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 export default function Home() {
   return (
     <div className="flex flex-col min-h-[calc(100vh-4rem)]">
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-green-50 dark:bg-green-950">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-transparent">
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
             <div className="flex flex-col justify-center space-y-4">
@@ -31,7 +31,7 @@ export default function Home() {
                 alt="Fresh produce"
                 className="aspect-video overflow-hidden rounded-xl object-cover object-center"
                 height="500"
-                src="/placeholder.svg?height=500&width=800&text=Fresh+Produce"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy9n3K6XctMlsGpO53Ofo1xviYnROPdp32P6-BKruFoJlOsavq3kHXXGI5GOdB4TgARdY&usqp=CAU"
                 width="800"
               />
             </div>
