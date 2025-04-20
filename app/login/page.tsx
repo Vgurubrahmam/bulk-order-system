@@ -86,6 +86,9 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle>Login</CardTitle>
           <CardDescription>Enter your credentials to access your account</CardDescription>
+          <CardDescription className="">Admin Email : "admin@gmail.com"</CardDescription>
+          <CardDescription>Admin Password : "1234567890"</CardDescription>
+
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">

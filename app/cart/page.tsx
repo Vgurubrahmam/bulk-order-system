@@ -1,71 +1,50 @@
-"use client";
+"use client"
 
-import type React from "react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useCart } from "@/components/cart-provider";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { formatPrice } from "@/lib/utils";
-import { Trash2, Minus, Plus } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import type React from "react"
 
-// Mock function to get JWT token (replace with your auth system, e.g., NextAuth)
-const getAuthToken = () => {
-  // Example: Retrieve from localStorage or NextAuth session
-  return localStorage.getItem("authToken") || "";
-};
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useCart } from "@/components/cart-provider"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { formatPrice } from "@/lib/utils"
+import { Trash2, Minus, Plus } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, clearCart, totalPrice } = useCart();
-  const router = useRouter();
-  const { toast } = useToast();
+  const { items, removeItem, updateQuantity, clearCart, totalPrice } = useCart()
+  const router = useRouter()
+  const { toast } = useToast()
 
   const [deliveryDetails, setDeliveryDetails] = useState({
     name: "",
     contact: "",
     address: "",
-  });
+  })
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (items.length === 0) {
       toast({
         title: "Cart is empty",
         description: "Please add items to your cart before placing an order.",
         variant: "destructive",
-      });
-      return;
+      })
+      return
     }
 
-    // Basic validation for delivery details
-    if (!deliveryDetails.name || !deliveryDetails.contact || !deliveryDetails.address) {
-      toast({
-        title: "Incomplete delivery details",
-        description: "Please fill in all delivery details.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     try {
-      const token = getAuthToken();
-      if (!token) {
-        throw new Error("Please log in to place an order");
-      }
-
       const response = await fetch("/api/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           items: items.map((item) => ({
@@ -74,41 +53,39 @@ export default function CartPage() {
           })),
           deliveryDetails,
         }),
-      });
+      })
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to place order");
+        throw new Error("Failed to place order")
       }
 
-      const order = await response.json();
+      const order = await response.json()
 
       // Clear the cart
-      clearCart();
+      clearCart()
 
       // Show success message
       toast({
         title: "Order placed successfully",
         description: `Your order #${order.id} has been placed.`,
-      });
+      })
 
       // Redirect to order tracking page
-      router.push(`/track-order?orderId=${order.id}`);
-    } catch (error: any) {
-      console.error("Error placing order:", error.message, error.stack);
+      router.push(`/track-order?orderId=${order.id}`)
+    } catch (error) {
+      console.error("Error placing order:", error)
       toast({
         title: "Failed to place order",
-        description: error.message || "Please try again later.",
+        description: "Please try again later.",
         variant: "destructive",
-      });
+      })
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <div className="container py-8">
-disable
       <h1 className="text-3xl font-bold mb-8">Your Cart</h1>
 
       {items.length === 0 ? (
@@ -127,9 +104,7 @@ disable
                     <div key={item.product.id} className="py-4 flex items-center">
                       <div className="flex-1">
                         <h3 className="font-medium">{item.product.name}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {formatPrice(item.product.price)}/kg
-                        </p>
+                        <p className="text-sm text-muted-foreground">{formatPrice(item.product.price)}/kg</p>
                       </div>
 
                       <div className="flex items-center gap-2">
@@ -154,12 +129,7 @@ disable
                         {formatPrice(item.product.price * item.quantity)}
                       </div>
 
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="ml-2"
-                        onClick={() => removeItem(item.product.id)}
-                      >
+                      <Button variant="ghost" size="icon" className="ml-2" onClick={() => removeItem(item.product.id)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -186,9 +156,7 @@ disable
                     <Input
                       id="name"
                       value={deliveryDetails.name}
-                      onChange={(e) =>
-                        setDeliveryDetails({ ...deliveryDetails, name: e.target.value })
-                      }
+                      onChange={(e) => setDeliveryDetails({ ...deliveryDetails, name: e.target.value })}
                       required
                     />
                   </div>
@@ -198,9 +166,7 @@ disable
                     <Input
                       id="contact"
                       value={deliveryDetails.contact}
-                      onChange={(e) =>
-                        setDeliveryDetails({ ...deliveryDetails, contact: e.target.value })
-                      }
+                      onChange={(e) => setDeliveryDetails({ ...deliveryDetails, contact: e.target.value })}
                       required
                     />
                   </div>
@@ -210,9 +176,7 @@ disable
                     <Textarea
                       id="address"
                       value={deliveryDetails.address}
-                      onChange={(e) =>
-                        setDeliveryDetails({ ...deliveryDetails, address: e.target.value })
-                      }
+                      onChange={(e) => setDeliveryDetails({ ...deliveryDetails, address: e.target.value })}
                       rows={3}
                       required
                     />
@@ -228,5 +192,5 @@ disable
         </div>
       )}
     </div>
-  );
+  )
 }
