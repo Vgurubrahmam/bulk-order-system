@@ -67,7 +67,7 @@ export default function AdminOrdersPage() {
       }
 
       // Update the order in the state
-      setOrders(orders.map((order) => (order.id === orderId ? { ...order, status } : order)))
+      setOrders(orders.map((order) => (order.id === orderId ? { ...order, status: status as "Pending" | "In Progress" | "Delivered" } : order)))
 
       toast({
         title: "Order updated",

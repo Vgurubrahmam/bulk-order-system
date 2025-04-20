@@ -3,9 +3,9 @@ import type { Product } from "@/lib/types"
 import { ClientProductList } from "./client"
 
 export default async function ProductsPage() {
-  const products = await sql<Product[]>`
+  const products = await sql`
     SELECT * FROM products ORDER BY name ASC
-  `
+  ` as Product[]
 
   return (
     <div className="container py-8">

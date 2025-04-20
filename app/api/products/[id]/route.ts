@@ -7,7 +7,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   try {
     const id = Number.parseInt(params.id)
 
-    const product = await sql<Product[]>`
+    const product = await sql`
       SELECT * FROM products WHERE id = ${id}
     `
 
@@ -37,7 +37,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       return NextResponse.json({ error: "Name and price are required" }, { status: 400 })
     }
 
-    const product = await sql<Product[]>`
+    const product = await sql`
       UPDATE products
       SET name = ${name}, 
           description = ${description || null}, 
@@ -69,7 +69,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
     const id = Number.parseInt(params.id)
 
-    const product = await sql<Product[]>`
+    const product = await sql`
       DELETE FROM products
       WHERE id = ${id}
       RETURNING *

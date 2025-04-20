@@ -5,7 +5,7 @@ import type { Product } from "@/lib/types"
 
 export async function GET() {
   try {
-    const products = await sql<Product[]>`
+    const products = await sql`
       SELECT * FROM products ORDER BY name ASC
     `
 
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Name and price are required" }, { status: 400 })
     }
 
-    const product = await sql<Product[]>`
+    const product = await sql`
       INSERT INTO products (name, description, price, image_url)
       VALUES (${name}, ${description || null}, ${price}, ${image_url || null})
       RETURNING *
